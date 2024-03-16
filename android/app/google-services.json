@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "520767960590",
+    "project_id": "eshopshoes-17628",
+    "storage_bucket": "eshopshoes-17628.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520767960590:android:fe1d43196a98cf29caee5f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpDAVlk6eZsHl9yMgsCauZdjL1cC3En68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
