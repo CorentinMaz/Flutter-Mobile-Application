@@ -304,6 +304,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  shoes_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/shoes_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   sky_engine:
     dependency: transitive
     description: flutter

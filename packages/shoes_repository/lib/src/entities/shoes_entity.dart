@@ -2,7 +2,7 @@ class ShoesEntity {
   String shoesId;
   String picture;
   String name;
-  String desciption;
+  String description;
   double price;
   List<int> sizeShoes;
 
@@ -10,7 +10,7 @@ class ShoesEntity {
     required this.shoesId,
     required this.picture,
     required this.name,
-    required this.desciption,
+    required this.description,
     required this.price,
     required this.sizeShoes,
   });
@@ -20,9 +20,9 @@ class ShoesEntity {
       'shoesId': shoesId,
       'picture': picture,
       'name': name,
-      'desciption': desciption,
+      'description': description,
       'price': price,
-      'sizeShoes': sizeShoes.map((e) => null),
+      'sizeShoes': sizeShoes,
     };
   }
 
@@ -31,9 +31,9 @@ class ShoesEntity {
       shoesId: doc['shoesId'],
       picture: doc['picture'],
       name: doc['name'],
-      desciption: doc['desciption'],
+      description: doc['description'],
       price: doc['price'],
-      sizeShoes: doc['sizeShoes'],
+      sizeShoes: List<int>.from(doc['sizeShoes'] ?? []),
     );
   }
 }

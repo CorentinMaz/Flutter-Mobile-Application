@@ -4,7 +4,7 @@ class Shoes {
   String shoesId;
   String picture;
   String name;
-  String desciption;
+  String description;
   double price;
   List<int> sizeShoes;
 
@@ -12,7 +12,7 @@ class Shoes {
     required this.shoesId,
     required this.picture,
     required this.name,
-    required this.desciption,
+    required this.description,
     required this.price,
     required this.sizeShoes,
   });
@@ -22,7 +22,7 @@ class Shoes {
       shoesId: shoesId,
       picture: picture,
       name: name,
-      desciption: desciption,
+      description: description,
       price: price,
       sizeShoes: sizeShoes,
     );
@@ -33,7 +33,7 @@ class Shoes {
       shoesId: entity.shoesId,
       picture: entity.picture,
       name: entity.name,
-      desciption: entity.desciption,
+      description: entity.description,
       price: entity.price,
       sizeShoes: entity.sizeShoes,
     );
