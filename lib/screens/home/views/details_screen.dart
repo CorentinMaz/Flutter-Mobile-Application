@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/macro.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   final Shoes shoes;
-  const DetailsScreen(this.shoes, {super.key});
+  const DetailsScreen(this.shoes, {required Key key}) : super(key: key);
+
+  @override
+  DetailsScreenState createState() => DetailsScreenState();
+}
+
+class DetailsScreenState extends State<DetailsScreen> {
+  String selectedSize = '';
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,7 @@ class DetailsScreen extends StatelessWidget {
                   ],
                   image: DecorationImage(
                     image: NetworkImage(
-                      shoes.picture
+                      widget.shoes.picture
                     )
                   )
                 ),
@@ -62,7 +67,7 @@ class DetailsScreen extends StatelessWidget {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              shoes.name,
+                              widget.shoes.name,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold
@@ -74,7 +79,7 @@ class DetailsScreen extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                "${shoes.price}€",
+                                "${widget.shoes.price}€",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -89,22 +94,29 @@ class DetailsScreen extends StatelessWidget {
                       Wrap(
                         spacing: 10,
                         runSpacing: 10,
-                        children: shoes.sizeShoes.map((size) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  size.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                        children: widget.shoes.sizeShoes.map((size) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedSize = size.toString();
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Container(
+                                width: 40, // Largeur du carré
+                                height: 40, // Hauteur du carré
+                                decoration: BoxDecoration(
+                                  color: selectedSize == size.toString() ? Colors.blue : Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    size.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -118,7 +130,7 @@ class DetailsScreen extends StatelessWidget {
                         height: 50,
                         child: TextButton(
                           onPressed: () {
-
+                            print("Selected Size: $selectedSize");
                           },
                           style: TextButton.styleFrom(
                             elevation: 3.0,

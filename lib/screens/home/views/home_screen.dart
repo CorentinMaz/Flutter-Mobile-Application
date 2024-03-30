@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               context.read<SignInBloc>().add(SignOutRequired());
             },
-            icon: const Icon(CupertinoIcons.arrow_right_to_line),
+            icon: const Icon(CupertinoIcons.power),
           ),
         ],
       ),
@@ -67,7 +67,10 @@ class HomeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
-                              DetailsScreen(state.shoes[i]),
+                              DetailsScreen(
+                                state.shoes[i],
+                                key: UniqueKey(),
+                              ),
                           ),
                         );
                       },
@@ -86,7 +89,8 @@ class HomeScreen extends StatelessWidget {
                             child: Text(
                               state.shoes[i].name,
                               style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 20, fontWeight: FontWeight.bold
+                              ),
                             ),
                           ),
                           Padding(
@@ -101,10 +105,10 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
+                              const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Row(
                               mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
@@ -122,7 +126,9 @@ class HomeScreen extends StatelessWidget {
                                 IconButton(
                                   onPressed: () {},
                                   icon: const Icon(
-                                      CupertinoIcons.add_circled_solid))
+                                    CupertinoIcons.heart
+                                  )
+                                )
                               ],
                             )
                           ),
