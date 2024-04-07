@@ -5,13 +5,11 @@ import 'package:user_repository/user_repository.dart';
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
 
+/// A BLoC responsible for managing sign-in processes.
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  final UserRepository _userRepository;
-
-  SignInBloc(
-    this._userRepository
-  ) : super(SignInInitial()) {
-    on<SignInRequired>((event, emit) async {
+  /// Constructs a [SignInBloc] with the provided [UserRepository].
+  SignInBloc(this._userRepository) : super(SignInInitial()) {
+    on<SignInRequired>((SignInRequired event, Emitter<SignInState> emit) async {
       emit(SignInProcess());
       try {
         await _userRepository.signIn(event.email, event.password);
@@ -20,6 +18,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       }
     });
 
-    on<SignOutRequired>( (event, emit) async => await _userRepository.logOut());
+    on<SignOutRequired>(
+        (SignOutRequired event, Emitter<SignInState> emit) async =>
+            _userRepository.logOut(),);
   }
+  final UserRepository _userRepository;
 }
