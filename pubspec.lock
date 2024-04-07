@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  blackfoot_flutter_lint:
+    dependency: "direct dev"
+    description:
+      name: blackfoot_flutter_lint
+      sha256: "146160bee2e422ba4986ac2cf5965a6fb09c8ad00656ae7781a923aabd2cb15b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   bloc:
     dependency: "direct main"
     description:
@@ -265,7 +273,7 @@ packages:
     source: hosted
     version: "1.11.0"
   nested:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: nested
       sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"

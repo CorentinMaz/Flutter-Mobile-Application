@@ -5,18 +5,19 @@ import 'package:shoes_repository/shoes_repository.dart';
 part 'get_shoes_event.dart';
 part 'get_shoes_state.dart';
 
+/// A BLoC responsible for managing the state of fetching shoes.
 class GetShoesBloc extends Bloc<GetShoesEvent, GetShoesState> {
-  final ShoesRepo _shoesRepo;
-
+  /// Constructs a [GetShoesBloc] with the provided [ShoesRepo].
   GetShoesBloc(this._shoesRepo) : super(GetShoesInitial()) {
-    on<GetShoes>((event, emit) async {
+    on<GetShoes>((GetShoes event, Emitter<GetShoesState> emit) async {
       emit(GetShoesLoading());
       try {
-        List<Shoes> shoes = await _shoesRepo.getShoes();
+        final List<Shoes> shoes = await _shoesRepo.getShoes();
         emit(GetShoesSuccess(shoes));
       } catch (e) {
         emit(GetShoesFailure());
       }
     });
   }
+  final ShoesRepo _shoesRepo;
 }
