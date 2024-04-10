@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoe
 import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/details_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/src/models/user.dart';
 
 /// The screen widget for the home screen.
 class HomeScreen extends StatelessWidget {
@@ -32,11 +35,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        actions: [
+        actions: <Widget>[
           BlocBuilder<GetUserBloc, GetUserState>(
-            builder: (context, state) {
+            builder: (BuildContext context, GetUserState state) {
               if (state is GetUserSuccess) {
-                final user = state.user;
+                final MyUser user = state.user;
                 if (user.role == 'admin') {
                   return IconButton(
                     onPressed: () {},
@@ -143,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     IconButton(
                                         onPressed: () {},
-                                        icon: const Icon(CupertinoIcons.heart))
+                                        icon: const Icon(CupertinoIcons.heart),),
                                   ],
                                 ),
                                 IconButton(

@@ -5,14 +5,14 @@ import 'package:user_repository/user_repository.dart';
 part 'get_user_event.dart';
 part 'get_user_state.dart';
 
+/// A BLoC responsible for managing the state of fetching user information.
 class GetUserBloc extends Bloc<GetUserEvent, GetUserState> {
-  final UserRepository _userRepository;
-
-   GetUserBloc(this._userRepository) : super(GetUserInitial()) {
-    on<GetUserEvent>((event, emit) async {
+  /// Constructs a [GetUserBloc] with the provided [UserRepository].
+  GetUserBloc(this._userRepository) : super(GetUserInitial()) {
+    on<GetUserEvent>((GetUserEvent event, Emitter<GetUserState> emit) async {
       emit(GetUserLoading());
       try {
-        final user = await _userRepository.user.first;
+        final MyUser? user = await _userRepository.user.first;
         if (user != null) {
           emit(GetUserSuccess(user));
         } else {
@@ -21,6 +21,7 @@ class GetUserBloc extends Bloc<GetUserEvent, GetUserState> {
       } catch (e) {
         emit(GetUserFailure());
       }
-        });
+    });
   }
+  final UserRepository _userRepository;
 }
