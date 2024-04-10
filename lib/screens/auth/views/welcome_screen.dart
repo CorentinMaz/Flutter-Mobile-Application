@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// A screen that welcomes users and allows them to sign in or sign up.
 class WelcomeScreen extends StatefulWidget {
   /// Constructs a [WelcomeScreen].
-  const WelcomeScreen({super.key});
+  const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -33,36 +33,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.shadow,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
               Align(
-                alignment: const AlignmentDirectional(20, -1.2),
-                child: Container(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  '../../../Assets/shoes7.png', // Remplacez par le chemin de votre image
                   height: MediaQuery.of(context).size.width,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: const AlignmentDirectional(2.7, -1.2),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 1.3,
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
                 ),
               ),
               BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+                filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                 child: Container(),
               ),
               Align(
@@ -87,6 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 'Sign In',
                                 style: TextStyle(
                                   fontSize: 18,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -96,6 +83,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 'Sign Up',
                                 style: TextStyle(
                                   fontSize: 18,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),

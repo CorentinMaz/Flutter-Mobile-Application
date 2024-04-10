@@ -47,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
           children: <Widget>[
             const SizedBox(height: 20),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
+              width: MediaQuery.of(context).size.width * 0.5,
               child: MyTextField(
                 controller: emailController,
                 hintText: 'Email',
@@ -68,7 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
+              width: MediaQuery.of(context).size.width * 0.5,
               child: MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
@@ -104,7 +104,8 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 20),
             if (!signInRequired)
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(context).size.width * 0.25,
+                height: 75,
                 child: TextButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -118,19 +119,19 @@ class _SignInScreenState extends State<SignInScreen> {
                   },
                   style: TextButton.styleFrom(
                     elevation: 3,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Text(
                       'Sign In',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),

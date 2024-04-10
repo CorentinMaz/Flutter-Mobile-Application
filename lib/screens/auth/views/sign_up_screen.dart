@@ -52,7 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: <Widget>[
               const SizedBox(height: 20),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: MyTextField(
                   controller: emailController,
                   hintText: 'Email',
@@ -72,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 10),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
@@ -169,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                           color: containsUpperCase
                               ? Colors.green
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Colors.white,
                         ),
                       ),
                       Text(
@@ -177,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                           color: containsLowerCase
                               ? Colors.green
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Colors.white,
                         ),
                       ),
                       Text(
@@ -185,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                           color: containsNumber
                               ? Colors.green
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Colors.white,
                         ),
                       ),
                     ],
@@ -198,7 +198,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                           color: containsSpecialChar
                               ? Colors.green
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Colors.white,
                         ),
                       ),
                       Text(
@@ -206,7 +206,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                           color: contains8Length
                               ? Colors.green
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Colors.white,
                         ),
                       ),
                     ],
@@ -215,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 10),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: MyTextField(
                   controller: nameController,
                   hintText: 'Name',
@@ -235,7 +235,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               if (!signUpRequired)
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: 75,
                   child: TextButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -255,10 +256,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     style: TextButton.styleFrom(
                       elevation: 3,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      backgroundColor: Colors.white,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(60),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: const Padding(
@@ -268,7 +269,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         'Sign Up',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),

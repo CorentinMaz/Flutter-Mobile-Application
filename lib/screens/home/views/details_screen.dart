@@ -21,6 +21,10 @@ class DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isWeb = kIsWeb;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -30,10 +34,11 @@ class DetailsScreenState extends State<DetailsScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Ajout d'un espacement égal entre les éléments
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width - (40),
+                width: screenWidth,
+                height: isWeb ? screenHeight * 0.5 : screenWidth - 40,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(30),
@@ -140,7 +145,7 @@ class DetailsScreenState extends State<DetailsScreen> {
                         height: 40,
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width,
+                        width: screenWidth,
                         height: 50,
                         child: TextButton(
                           onPressed: () {
