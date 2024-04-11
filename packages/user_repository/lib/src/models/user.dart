@@ -1,11 +1,6 @@
 import '../entities/entities.dart';
 
 class MyUser {
-  String userId;
-  String email;
-  String name;
-  bool hasActiveCart;
-
   MyUser({
     required this.userId,
     required this.email,
@@ -13,7 +8,17 @@ class MyUser {
     required this.hasActiveCart,
   });
 
-  static final empty = MyUser(
+  MyUser.fromEntity(MyUserEntity entity)
+      : userId = entity.userId,
+        email = entity.email,
+        name = entity.name,
+        hasActiveCart = entity.hasActiveCart;
+  String userId;
+  String email;
+  String name;
+  bool hasActiveCart;
+
+  static final MyUser empty = MyUser(
     userId: '',
     email: '',
     name: '',
@@ -26,15 +31,6 @@ class MyUser {
       email: email,
       name: name,
       hasActiveCart: hasActiveCart,
-    );
-  }
-
-  static MyUser fromEntity(MyUserEntity entity) {
-    return MyUser(
-      userId: entity.userId,
-      email: entity.email,
-      name: entity.name,
-      hasActiveCart: entity.hasActiveCart,
     );
   }
 

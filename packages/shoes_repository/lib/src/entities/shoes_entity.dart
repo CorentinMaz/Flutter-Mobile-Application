@@ -1,11 +1,4 @@
 class ShoesEntity {
-  String shoesId;
-  String picture;
-  String name;
-  String description;
-  double price;
-  List<int> sizeShoes;
-
   ShoesEntity({
     required this.shoesId,
     required this.picture,
@@ -14,9 +7,22 @@ class ShoesEntity {
     required this.price,
     required this.sizeShoes,
   });
+  ShoesEntity.fromDocument(Map<String, dynamic> doc)
+      : shoesId = doc['shoesId'],
+        picture = doc['picture'],
+        name = doc['name'],
+        description = doc['description'],
+        price = doc['price'],
+        sizeShoes = List<int>.from(doc['sizeShoes']);
+  String shoesId;
+  String picture;
+  String name;
+  String description;
+  double price;
+  List<int> sizeShoes;
 
   Map<String, Object?> toDocument() {
-    return {
+    return <String, Object?>{
       'shoesId': shoesId,
       'picture': picture,
       'name': name,
@@ -24,16 +30,5 @@ class ShoesEntity {
       'price': price,
       'sizeShoes': sizeShoes,
     };
-  }
-
-  static ShoesEntity fromDocument(Map<String, dynamic> doc) {
-    return ShoesEntity(
-      shoesId: doc['shoesId'],
-      picture: doc['picture'],
-      name: doc['name'],
-      description: doc['description'],
-      price: doc['price'],
-      sizeShoes: List<int>.from(doc['sizeShoes'] ?? []),
-    );
   }
 }
