@@ -3,10 +3,12 @@ import 'package:flutter_application_1/blocs/authentication_bloc/authentication_b
 import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:flutter_application_1/screens/auth/views/welcome_screen.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
+import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:shoes_repository/shoes_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 /// The main view of the application.
 class MyAppView extends StatelessWidget {
@@ -37,6 +39,10 @@ class MyAppView extends StatelessWidget {
                 BlocProvider<GetShoesBloc>(
                   create: (BuildContext context) =>
                       GetShoesBloc(FirebaseShoesRepo())..add(GetShoes()),
+                ),
+                BlocProvider<GetUserBloc>(
+                  create: (BuildContext context) =>
+                      GetUserBloc(FirebaseUserRepo())..add(GetUser()),
                 ),
               ],
               child: const HomeScreen(),

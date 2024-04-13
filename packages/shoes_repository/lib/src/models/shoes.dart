@@ -1,13 +1,6 @@
 import '../entities/entities.dart';
 
 class Shoes {
-  String shoesId;
-  String picture;
-  String name;
-  String description;
-  double price;
-  List<int> sizeShoes;
-
   Shoes({
     required this.shoesId,
     required this.picture,
@@ -17,6 +10,20 @@ class Shoes {
     required this.sizeShoes,
   });
 
+  Shoes.fromEntity(ShoesEntity entity)
+      : shoesId = entity.shoesId,
+        picture = entity.picture,
+        name = entity.name,
+        description = entity.description,
+        price = entity.price,
+        sizeShoes = entity.sizeShoes;
+  String shoesId;
+  String picture;
+  String name;
+  String description;
+  double price;
+  List<int> sizeShoes;
+
   ShoesEntity toEntity() {
     return ShoesEntity(
       shoesId: shoesId,
@@ -25,17 +32,6 @@ class Shoes {
       description: description,
       price: price,
       sizeShoes: sizeShoes,
-    );
-  }
-
-  static Shoes fromEntity(ShoesEntity entity) {
-    return Shoes(
-      shoesId: entity.shoesId,
-      picture: entity.picture,
-      name: entity.name,
-      description: entity.description,
-      price: entity.price,
-      sizeShoes: entity.sizeShoes,
     );
   }
 }
