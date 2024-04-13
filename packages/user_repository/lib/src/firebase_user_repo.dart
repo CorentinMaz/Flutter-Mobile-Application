@@ -47,7 +47,6 @@ class FirebaseUserRepo implements UserRepository {
     try {
       final UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
           email: myUser.email, password: password,);
-
       myUser.userId = user.user!.uid;
       return myUser;
     } catch (e) {

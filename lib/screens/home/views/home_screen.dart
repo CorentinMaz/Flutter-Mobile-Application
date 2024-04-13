@@ -1,9 +1,13 @@
+// ignore_for_file: implementation_imports
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
+import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/details_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 /// The screen widget for the home screen.
 class HomeScreen extends StatelessWidget {
@@ -32,9 +36,25 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(CupertinoIcons.cart),
+          BlocBuilder<GetUserBloc, GetUserState>(
+            builder: (BuildContext context, GetUserState state) {
+              if (state is GetUserSuccess) {
+                final MyUser user = state.user;
+                if (user.role == 'admin') {
+                  return IconButton(
+                    onPressed: () {},
+                    icon: const Icon(CupertinoIcons.add),
+                  );
+                } else {
+                  return IconButton(
+                    onPressed: () {},
+                    icon: const Icon(CupertinoIcons.cart),
+                  );
+                }
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
           ),
           IconButton(
             onPressed: () {
