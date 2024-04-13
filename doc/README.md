@@ -20,7 +20,6 @@
 
 - **Gestion de l'inventaire** : Ajoutez, modifiez et supprimez des chaussures avec des détails tels que la taille, le prix, le nom et la photo.
 - **Gestion des photos** : Utilisez la galerie ou l'appareil photo du téléphone pour ajouter ou modifier les photos des chaussures.
-
 ### Compte Utilisateur Normal
 
 - **Navigation dans le catalogue** : Accédez à la liste des chaussures disponibles, filtrez par prix, taille ou catégorie, et utilisez la barre de recherche pour trouver des chaussures spécifiques.
