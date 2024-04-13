@@ -1,4 +1,5 @@
 class ShoesEntity {
+
   ShoesEntity({
     required this.shoesId,
     required this.picture,

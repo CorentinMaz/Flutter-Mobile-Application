@@ -1,6 +1,10 @@
 part of 'get_user_bloc.dart';
 
-/// Base class for user data retrieval events.
+/// Sealed class representing events for fetching user information.
+///
+/// Extends [Equatable] for equality comparison.
+///
+/// Each event class should be a subclass of [GetUserEvent].
 sealed class GetUserEvent extends Equatable {
   const GetUserEvent();
 
@@ -8,5 +12,5 @@ sealed class GetUserEvent extends Equatable {
   List<Object> get props => <Object>[];
 }
 
-/// Event triggered to fetch user data.
+/// Event indicating a request to fetch user information.
 class GetUser extends GetUserEvent{}

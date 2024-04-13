@@ -1,6 +1,10 @@
 part of 'get_user_bloc.dart';
 
-/// Base class for user data retrieval states.
+/// Sealed class representing states for user information retrieval.
+///
+/// Extends [Equatable] for equality comparison.
+///
+/// Each state class should be a subclass of [GetUserState].
 sealed class GetUserState extends Equatable {
   const GetUserState();
 
@@ -8,21 +12,23 @@ sealed class GetUserState extends Equatable {
   List<Object> get props => <Object>[];
 }
 
-/// Initial state when user data retrieval is initialized.
+/// Initial state indicating that user information retrieval has not yet started.
 final class GetUserInitial extends GetUserState {}
 
-/// State indicating failure in user data retrieval.
+/// State indicating a failure occurred during user information retrieval.
 final class GetUserFailure extends GetUserState {}
 
-/// State indicating ongoing user data retrieval.
+/// State indicating that user information retrieval is in progress.
 final class GetUserLoading extends GetUserState {}
 
-/// State indicating successful user data retrieval.
+/// State indicating successful retrieval of user information.
+///
+/// Contains [user] representing the retrieved user.
 final class GetUserSuccess extends GetUserState {
-  /// Constructs a [GetUserSuccess] with the provided user data.
+  /// Constructs a [GetUserSuccess] state with the provided [user].
   const GetUserSuccess(this.user);
 
-  /// The retrieved user data.
+  /// The retrieved user information.
   final MyUser user;
 
   @override
