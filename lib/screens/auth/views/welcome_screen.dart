@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// A screen that welcomes users and allows them to sign in or sign up.
 class WelcomeScreen extends StatefulWidget {
   /// Constructs a [WelcomeScreen].
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -40,7 +40,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           child: Stack(
             children: <Widget>[
               Align(
-                alignment: Alignment.center,
                 child: Image.asset(
                   '../../../Assets/shoes7.png', // Remplacez par le chemin de votre image
                   height: MediaQuery.of(context).size.width,

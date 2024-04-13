@@ -12,7 +12,7 @@ import 'package:user_repository/user_repository.dart';
 /// The screen widget for the home screen.
 class HomeScreen extends StatelessWidget {
   /// Constructs a [HomeScreen] widget.
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +71,9 @@ class HomeScreen extends StatelessWidget {
             if (state is GetShoesSuccess) {
               return LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
-                  final screenWidth = constraints.maxWidth;
-                  final screenHeight = constraints.maxHeight;
-                  final isMobile = screenWidth < 600;
-                  final crossAxisCount = isMobile ? 1 : screenWidth ~/ 250;
+                  final double screenWidth = constraints.maxWidth;
+                  final bool isMobile = screenWidth < 600;
+                  final int crossAxisCount = isMobile ? 1 : screenWidth ~/ 250;
 
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -21,9 +21,9 @@ class DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isWeb = kIsWeb;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    const bool isWeb = kIsWeb;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
