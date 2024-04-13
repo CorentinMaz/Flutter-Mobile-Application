@@ -1,7 +1,6 @@
 import '../entities/entities.dart';
 
 class Shoes {
-
   Shoes({
     required this.shoesId,
     required this.picture,

@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                 if (user.role == 'admin') {
                   return IconButton(
                     onPressed: () {},
-                    icon: const Icon(CupertinoIcons.search),
+                    icon: const Icon(CupertinoIcons.add),
                   );
                 } else {
                   return IconButton(
@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                   );
                 }
               } else {
-                return Container();
+                return const SizedBox.shrink();
               }
             },
           ),
