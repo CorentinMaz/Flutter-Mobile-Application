@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:flutter_application_1/blocs/create_shoes_bloc/create_shoes_bloc.dart';
+import 'package:flutter_application_1/blocs/upload_picture_bloc/upload_picture_bloc.dart';
 import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:flutter_application_1/screens/auth/views/welcome_screen.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
@@ -44,6 +46,14 @@ class MyAppView extends StatelessWidget {
                   create: (BuildContext context) =>
                       GetUserBloc(FirebaseUserRepo())..add(GetUser()),
                 ),
+                // BlocProvider<UploadPictureBloc>(
+                //   create: (BuildContext context) =>
+                //       UploadPictureBloc(FirebaseShoesRepo()),
+                // ),
+                // BlocProvider<CreateShoesBloc>(
+                //   create: (BuildContext context) =>
+                //       CreateShoesBloc(FirebaseShoesRepo()),
+                // ),
               ],
               child: const HomeScreen(),
             );

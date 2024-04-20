@@ -6,6 +6,7 @@ import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bl
 import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/details_screen.dart';
+import 'package:flutter_application_1/screens/shoes/create_shoes_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -42,7 +43,14 @@ class HomeScreen extends StatelessWidget {
                 final MyUser user = state.user;
                 if (user.role == 'admin') {
                   return IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const CreateShoesScreen(),
+                        ),
+                      );
+                    },
                     icon: const Icon(CupertinoIcons.add),
                   );
                 } else {

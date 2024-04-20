@@ -10,12 +10,14 @@ class ShoesEntity {
   });
 
   ShoesEntity.fromDocument(Map<String, dynamic> doc)
-      : shoesId = doc['shoesId'],
-      picture = doc['picture'],
-      name = doc['name'],
-      description = doc['description'],
-      price = doc['price'],
-      sizeShoes = List<int>.from(doc['sizeShoes']);
+    : shoesId = doc['shoesId'],
+    picture = doc['picture'],
+    name = doc['name'],
+    description = doc['description'],
+    price = doc['price'],
+    sizeShoes = List<int>.from(doc['sizeShoes'],
+  );
+
   String shoesId;
   String picture;
   String name;
