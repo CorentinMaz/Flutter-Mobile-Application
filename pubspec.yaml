@@ -18,7 +18,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.4
   font_awesome_flutter: ^10.7.0
-  image_picker: ^1.0.8
+  image_picker: ^1.1.0
   nested: ^1.0.0
   path: ^1.9.0
   rxdart: ^0.27.7

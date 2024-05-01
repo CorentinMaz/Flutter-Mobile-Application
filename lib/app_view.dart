@@ -7,6 +7,7 @@ import 'package:flutter_application_1/screens/auth/views/welcome_screen.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/home_screen.dart';
+import 'package:flutter_application_1/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:shoes_repository/shoes_repository.dart';
@@ -53,6 +54,11 @@ class MyAppView extends StatelessWidget {
                 BlocProvider<CreateShoesBloc>(
                   create: (BuildContext context) =>
                       CreateShoesBloc(FirebaseShoesRepo()),
+                ),
+                BlocProvider<UpdateUserBloc>(
+                  create: (BuildContext context) => UpdateUserBloc(
+                    context.read<AuthenticationBloc>().userRepository,
+                  ),
                 ),
               ],
               child: const HomeScreen(),

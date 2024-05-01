@@ -1,7 +1,6 @@
-// ignore_for_file: implementation_imports
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter_application_1/blocs/create_shoes_bloc/create_shoes_bloc.dart';
 import 'package:flutter_application_1/blocs/upload_picture_bloc/upload_picture_bloc.dart';
 import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoe
 import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/details_screen.dart';
 import 'package:flutter_application_1/screens/shoes/create_shoes_screen.dart';
+import 'package:flutter_application_1/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
+import 'package:flutter_application_1/screens/user/views/user_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:shoes_repository/shoes_repository.dart';
@@ -54,12 +55,14 @@ class HomeScreen extends StatelessWidget {
                           builder: (BuildContext context) => MultiBlocProvider(
                             providers: <SingleChildWidget>[
                               BlocProvider<CreateShoesBloc>(
-                                create: (BuildContext context) => CreateShoesBloc(
+                                create: (BuildContext context) =>
+                                    CreateShoesBloc(
                                   FirebaseShoesRepo(),
                                 ),
                               ),
                               BlocProvider<UploadPictureBloc>(
-                                create: (BuildContext context) => UploadPictureBloc(
+                                create: (BuildContext context) =>
+                                    UploadPictureBloc(
                                   FirebaseShoesRepo(),
                                 ),
                               ),
@@ -77,6 +80,34 @@ class HomeScreen extends StatelessWidget {
                     icon: const Icon(CupertinoIcons.cart),
                   );
                 }
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+          BlocBuilder<GetUserBloc, GetUserState>(
+            builder: (BuildContext context, GetUserState state) {
+              if (state is GetUserSuccess) {
+                final MyUser user = state.user;
+                return IconButton(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            BlocProvider<UpdateUserBloc>(
+                          create: (BuildContext context) => UpdateUserBloc(
+                            context.read<AuthenticationBloc>().userRepository,
+                          ),
+                          child: UserScreen(
+                            user: user,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(CupertinoIcons.profile_circled),
+                );
               } else {
                 return const SizedBox.shrink();
               }

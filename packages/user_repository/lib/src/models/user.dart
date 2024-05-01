@@ -7,6 +7,7 @@ class MyUser {
     required this.name,
     required this.hasActiveCart,
     required this.role,
+    required this.picture,
   });
 
   MyUser.fromEntity(MyUserEntity entity)
@@ -14,12 +15,14 @@ class MyUser {
         email = entity.email,
         name = entity.name,
         hasActiveCart = entity.hasActiveCart,
-        role = entity.role;
+        role = entity.role,
+        picture = entity.picture;
   String userId;
   String email;
   String name;
   bool hasActiveCart;
   String role;
+  String picture;
 
   static final MyUser empty = MyUser(
     userId: '',
@@ -27,6 +30,7 @@ class MyUser {
     name: '',
     hasActiveCart: false,
     role: 'user',
+    picture: '',
   );
 
   MyUserEntity toEntity() {
@@ -36,11 +40,12 @@ class MyUser {
       name: name,
       hasActiveCart: hasActiveCart,
       role: role,
+      picture: picture,
     );
   }
 
   @override
   String toString() {
-    return 'MyUser: $userId, $email, $name, $hasActiveCart, $role';
+    return 'MyUser: $userId, $email, $name, $hasActiveCart, $role, $picture';
   }
 }
