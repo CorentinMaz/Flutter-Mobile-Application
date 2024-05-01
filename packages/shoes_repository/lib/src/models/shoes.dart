@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:uuid/uuid.dart';
+
 import '../entities/entities.dart';
 
 class Shoes {
@@ -32,5 +36,25 @@ class Shoes {
       price: price,
       sizeShoes: sizeShoes,
     );
+  }
+  static Shoes empty = Shoes(
+		shoesId: const Uuid().v1(),
+    picture: '',
+    name: '',
+    description: '',
+    price: 0,
+    sizeShoes: <int>[],
+	);
+
+  @override
+  String toString() {
+    return '''
+      shoesId: $shoesId,
+      picture: $picture,
+      name: $name,
+      description: $description,
+      price: $price,
+      sizeShoes: $sizeShoes,
+    ''';
   }
 }
