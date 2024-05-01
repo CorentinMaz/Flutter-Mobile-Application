@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/blocs/create_shoes_bloc/create_shoes_bloc.dart';
@@ -10,7 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 
+/// A screen widget for creating a new pair of shoes.
 class CreateShoesScreen extends StatefulWidget {
+  /// Constructs a [CreateShoesScreen].
   const CreateShoesScreen({super.key});
 
   @override
@@ -70,8 +70,7 @@ class _CreateShoesScreenState extends State<CreateShoesScreen> {
                 children: <Widget>[
                   const Text(
                     'Create a New SHoes !',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                   const SizedBox(
                     height: 20,
@@ -85,11 +84,11 @@ class _CreateShoesScreenState extends State<CreateShoesScreen> {
                       );
                       if (image != null && context.mounted) {
                         context.read<UploadPictureBloc>().add(
-                            UploadPicture(
-                              await image.readAsBytes(),
-                              basename(image.path),
-                            ),
-                          );
+                              UploadPicture(
+                                await image.readAsBytes(),
+                                basename(image.path),
+                              ),
+                            );
                       }
                     },
                     child: shoes.picture.isNotEmpty
@@ -209,9 +208,19 @@ class _CreateShoesScreenState extends State<CreateShoesScreen> {
                               shoes
                                 ..name = nameController.text
                                 ..description = descriptionController.text
-                                ..sizeShoes = <int>[36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
-                                ..price =
-                                    double.parse(priceController.text);
+                                ..sizeShoes = <int>[
+                                  36,
+                                  37,
+                                  38,
+                                  39,
+                                  40,
+                                  41,
+                                  42,
+                                  43,
+                                  44,
+                                  45,
+                                ]
+                                ..price = double.parse(priceController.text);
                             });
                             context
                                 .read<CreateShoesBloc>()

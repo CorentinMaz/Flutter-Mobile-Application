@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ShoesEntity {
 
   ShoesEntity({

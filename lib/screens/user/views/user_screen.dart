@@ -10,6 +10,7 @@ import 'package:user_repository/user_repository.dart';
 class UserScreen extends StatefulWidget {
   /// Constructs a [UserScreen] with the provided user data.
   const UserScreen({required this.user, super.key});
+
   /// The user data to be displayed.
   final MyUser user;
 
@@ -77,7 +78,7 @@ class UserScreenState extends State<UserScreen> {
                         image: _imageFile != null && _imageFile!.path.isNotEmpty
                             ? DecorationImage(
                                 image: FileImage(_imageFile!),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               )
                             : null,
                       ),
@@ -160,10 +161,11 @@ class UserScreenState extends State<UserScreen> {
     );
   }
 
-  Widget _buildCustomTextField(
-      {required TextEditingController controller,
-      required String labelText,
-      required bool isSelected,}) {
+  Widget _buildCustomTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required bool isSelected,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
