@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:uuid/uuid.dart';
 
 import '../entities/entities.dart';

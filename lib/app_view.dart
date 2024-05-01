@@ -46,14 +46,14 @@ class MyAppView extends StatelessWidget {
                   create: (BuildContext context) =>
                       GetUserBloc(FirebaseUserRepo())..add(GetUser()),
                 ),
-                // BlocProvider<UploadPictureBloc>(
-                //   create: (BuildContext context) =>
-                //       UploadPictureBloc(FirebaseShoesRepo()),
-                // ),
-                // BlocProvider<CreateShoesBloc>(
-                //   create: (BuildContext context) =>
-                //       CreateShoesBloc(FirebaseShoesRepo()),
-                // ),
+                BlocProvider<UploadPictureBloc>(
+                  create: (BuildContext context) =>
+                      UploadPictureBloc(FirebaseShoesRepo()),
+                ),
+                BlocProvider<CreateShoesBloc>(
+                  create: (BuildContext context) =>
+                      CreateShoesBloc(FirebaseShoesRepo()),
+                ),
               ],
               child: const HomeScreen(),
             );

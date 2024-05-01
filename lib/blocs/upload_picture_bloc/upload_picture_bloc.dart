@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -16,6 +17,7 @@ class UploadPictureBloc extends Bloc<UploadPictureEvent, UploadPictureState> {
         final String url = await shoesRepo.sendImage(event.file, event.name);
         emit(UploadPictureSuccess(url));
       } catch (e) {
+        print(e);
         emit(UploadPictureFailure());
       }
     });

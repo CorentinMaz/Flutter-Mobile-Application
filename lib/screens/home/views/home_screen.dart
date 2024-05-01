@@ -2,12 +2,16 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/blocs/create_shoes_bloc/create_shoes_bloc.dart';
+import 'package:flutter_application_1/blocs/upload_picture_bloc/upload_picture_bloc.dart';
 import 'package:flutter_application_1/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
 import 'package:flutter_application_1/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:flutter_application_1/screens/home/views/details_screen.dart';
 import 'package:flutter_application_1/screens/shoes/create_shoes_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nested/nested.dart';
+import 'package:shoes_repository/shoes_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// The screen widget for the home screen.
@@ -47,7 +51,21 @@ class HomeScreen extends StatelessWidget {
                       await Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const CreateShoesScreen(),
+                          builder: (BuildContext context) => MultiBlocProvider(
+                            providers: <SingleChildWidget>[
+                              BlocProvider<CreateShoesBloc>(
+                                create: (BuildContext context) => CreateShoesBloc(
+                                  FirebaseShoesRepo(),
+                                ),
+                              ),
+                              BlocProvider<UploadPictureBloc>(
+                                create: (BuildContext context) => UploadPictureBloc(
+                                  FirebaseShoesRepo(),
+                                ),
+                              ),
+                            ],
+                            child: const CreateShoesScreen(),
+                          ),
                         ),
                       );
                     },
