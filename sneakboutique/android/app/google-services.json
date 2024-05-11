@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "609122838747",
+    "project_id": "sneak-boutique",
+    "storage_bucket": "sneak-boutique.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609122838747:android:620178ca0b09da379ac4fe",
+        "android_client_info": {
+          "package_name": "com.example.sneakboutique"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_UOaQBJrs7WP2Ex_pqYOq55DsuCX17Q8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
