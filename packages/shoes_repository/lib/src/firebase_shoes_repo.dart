@@ -5,15 +5,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 
+/// A repository implementation using Firebase Firestore and Storage for managing shoes data.
 class FirebaseShoesRepo implements ShoesRepo {
-  final shoesCollection = FirebaseFirestore.instance.collection('shoes');
+  /// The collection reference for shoes data in Firestore.
+  final CollectionReference<Map<String, dynamic>> shoesCollection = FirebaseFirestore.instance.collection('shoes');
 
   @override
   Future<List<Shoes>> getShoes() async {
     try {
       return await shoesCollection
         .get()
-        .then((value) => value.docs.map((e) =>
+        .then((QuerySnapshot<Map<String, dynamic>> value) => value.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> e) =>
           Shoes.fromEntity(ShoesEntity.fromDocument(e.data())),
         ).toList(),);
     } catch (e) {

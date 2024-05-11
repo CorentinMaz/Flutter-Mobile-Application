@@ -4,9 +4,13 @@ import 'package:sneakboutique/app_view.dart';
 import 'package:sneakboutique/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
+/// Root widget of the application.
 class MyApp extends StatelessWidget {
+
+  /// Constructs a [MyApp] with the provided [userRepository].
   const MyApp(this.userRepository, {super.key});
 
+  /// Repository for managing user data.
   final UserRepository userRepository;
 
   @override

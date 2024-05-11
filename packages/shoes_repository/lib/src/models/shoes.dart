@@ -1,7 +1,9 @@
 import 'package:shoes_repository/src/entities/entities.dart';
 import 'package:uuid/uuid.dart';
 
+/// A model class representing shoes data.
 class Shoes {
+  /// Constructs a [Shoes] object with the provided data.
   Shoes({
     required this.shoesId,
     required this.picture,
@@ -10,6 +12,8 @@ class Shoes {
     required this.price,
     required this.sizeShoes,
   });
+
+  /// Constructs a [Shoes] object from a [ShoesEntity].
   Shoes.fromEntity(ShoesEntity entity)
       : shoesId = entity.shoesId,
         picture = entity.picture,
@@ -17,13 +21,26 @@ class Shoes {
         description = entity.description,
         price = entity.price,
         sizeShoes = entity.sizeShoes;
+
+  /// The unique identifier for the shoes.
   String shoesId;
+
+  /// The URL of the picture of the shoes.
   String picture;
+
+  /// The name of the shoes.
   String name;
+
+  /// The description of the shoes.
   String description;
+
+  /// The price of the shoes.
   double price;
+
+  /// The available sizes of the shoes.
   List<int> sizeShoes;
 
+  /// Converts the [Shoes] object to a [ShoesEntity].
   ShoesEntity toEntity() {
     return ShoesEntity(
       shoesId: shoesId,
@@ -34,6 +51,8 @@ class Shoes {
       sizeShoes: sizeShoes,
     );
   }
+
+  /// An empty instance of [Shoes].
   static Shoes empty = Shoes(
 		shoesId: const Uuid().v1(),
     picture: '',

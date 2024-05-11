@@ -23,5 +23,4 @@ class UpdateUserBloc extends Bloc<UpdateUserEvent, UpdateUserState> {
 
   /// The repository for user data.
   final UserRepository userRepository;
-
 }

@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sneakboutique/components/my_text_field.dart';
 import 'package:sneakboutique/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 
+/// Widget for the sign-in screen.
 class SignInScreen extends StatefulWidget {
+  /// Constructs a [SignInScreen].
   const SignInScreen({super.key});
 
   @override

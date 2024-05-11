@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nested/nested.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 import 'package:sneakboutique/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sneakboutique/blocs/create_shoes_bloc/create_shoes_bloc.dart';
@@ -27,13 +28,13 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: Row(
           children: <Widget>[
-            // Image.asset(
-            //   'assets/logosneakers.png',
-            //   scale: 17,
-            // ),
-            // const SizedBox(
-            //   width: 8,
-            // ),
+            Image.asset(
+              'assets/logosneakers.png',
+              scale: 17,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
             const Text(
               'SHOES',
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) => MultiBlocProvider(
-                            providers: [
+                            providers: <SingleChildWidget>[
                               BlocProvider<CreateShoesBloc>(
                                 create: (BuildContext context) =>
                                     CreateShoesBloc(
