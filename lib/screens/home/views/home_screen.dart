@@ -27,13 +27,13 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: Row(
           children: <Widget>[
-            Image.asset(
-              'assets/logosneakers.png',
-              scale: 17,
-            ),
-            const SizedBox(
-              width: 8,
-            ),
+            // Image.asset(
+            //   'assets/logosneakers.png',
+            //   scale: 17,
+            // ),
+            // const SizedBox(
+            //   width: 8,
+            // ),
             const Text(
               'SHOES',
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),

@@ -36,9 +36,9 @@ class _CreateShoesScreenState extends State<CreateShoesScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CreateShoesBloc, CreateShoesState>(
-      listener: (BuildContext context, CreateShoesState state) async {
+      listener: (BuildContext context, CreateShoesState state) {
         if (state is CreateShoesSuccess) {
-          setState(() async {
+          setState(() {
             creationRequired = false;
             Navigator.pop(context);
           });
