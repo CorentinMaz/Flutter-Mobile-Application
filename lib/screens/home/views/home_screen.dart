@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                      );
+                      ).then((void value) => <void>{_getRequests()});
                     },
                     icon: const Icon(CupertinoIcons.cart),
                   );
@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               BlocProvider<GetUserBloc>(
                                 create: (BuildContext context) =>
                                   GetUserBloc(
-                                    FirebaseUserRepo()
+                                    FirebaseUserRepo(),
                                 )..add(GetUser()),
                               ),
                             ],
@@ -229,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                        );
+                        ).then((void value) => <void>{_getRequests()});
                       },
                       child: SingleChildScrollView(
                         child: Column(
