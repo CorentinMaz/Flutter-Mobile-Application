@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 
 /// A screen that displays the details of a pair of shoes.
@@ -132,15 +133,20 @@ class DetailsScreenState extends State<DetailsScreen> {
                                               BorderRadius.circular(8),
                                         ),
                                         child: Center(
-                                          child: Text(
-                                            size.toString(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: selectedSize ==
-                                                      size.toString()
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                          child: Animate(
+                                            effects: const <Effect>[ScaleEffect(
+                                              duration: Duration(milliseconds: 300),
+                                            ),],
+                                            child: Text(
+                                              size.toString(),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: selectedSize ==
+                                                        size.toString()
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
                                             ),
                                           ),
                                         ),
