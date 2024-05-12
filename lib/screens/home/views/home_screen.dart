@@ -16,9 +16,19 @@ import 'package:sneakboutique/screens/user/views/user_screen.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// The screen widget for the home screen.
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   /// Constructs a [HomeScreen] widget.
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  dynamic _getRequests() async {
+    context.read<GetUserBloc>().add(GetUser());
+    context.read<GetShoesBloc>().add(GetShoes());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                             child: const CreateShoesScreen(),
                           ),
                         ),
-                      );
+                      ).then((void value) => <void>{ _getRequests() });
                     },
                     icon: const Icon(CupertinoIcons.add),
                   );
@@ -90,24 +100,40 @@ class HomeScreen extends StatelessWidget {
               if (state is GetUserSuccess) {
                 final MyUser user = state.user;
                 return IconButton(
+                  color: const Color.fromRGBO(238, 238, 238, 1),
                   onPressed: () async {
-                    await Navigator.push(
-                      context,
+                    await Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
+                        builder: (BuildContext context) => MultiBlocProvider(
+                          providers: <SingleChildWidget>[
                             BlocProvider<UpdateUserBloc>(
-                          create: (BuildContext context) => UpdateUserBloc(
-                            context.read<AuthenticationBloc>().userRepository,
-                          ),
+                              create: (BuildContext context) => UpdateUserBloc(
+                                context.read<AuthenticationBloc>().userRepository,
+                              ),
+                            ),
+                            BlocProvider<UploadPictureBloc>(
+                              create: (BuildContext context) =>
+                                  UploadPictureBloc(
+                                FirebaseShoesRepo(),
+                              ),
+                            ),
+                          ],
                           child: UserScreen(
                             user: user,
                           ),
                         ),
                       ),
-                    );
+                    ).then((void value) => <void>{ _getRequests() });
                   },
-                  icon: const Icon(CupertinoIcons.profile_circled),
-                );
+                  icon: user.picture != ''
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage(user.picture),
+                      )
+                    : const Icon(
+                      CupertinoIcons.profile_circled,
+                      color: Colors.grey,
+                    ),
+                  );
               } else {
                 return const SizedBox.shrink();
               }

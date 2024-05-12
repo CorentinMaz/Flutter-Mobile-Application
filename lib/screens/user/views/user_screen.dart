@@ -1,8 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:sneakboutique/blocs/upload_picture_bloc/upload_picture_bloc.dart';
+import 'package:sneakboutique/screens/home/views/home_screen.dart';
 import 'package:sneakboutique/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -22,7 +23,7 @@ class UserScreen extends StatefulWidget {
 class UserScreenState extends State<UserScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
-  late File? _imageFile;
+  late String _imageFile;
   bool _isHovering = false;
   bool _isNameSelected = false;
   bool _isEmailSelected = false;
@@ -35,7 +36,7 @@ class UserScreenState extends State<UserScreen> {
     super.initState();
     _nameController = TextEditingController(text: widget.user.name);
     _emailController = TextEditingController(text: widget.user.email);
-    _imageFile = File(widget.user.picture);
+    _imageFile = widget.user.picture;
   }
 
   @override
@@ -56,107 +57,147 @@ class UserScreenState extends State<UserScreen> {
           });
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Edit Profile'),
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey[200],
-                        image: _imageFile != null && _imageFile!.path.isNotEmpty
-                            ? DecorationImage(
-                                image: FileImage(_imageFile!),
-                                fit: BoxFit.contain,
-                              )
-                            : null,
-                      ),
-                      child: _imageFile == null || _imageFile!.path.isEmpty
+      child: BlocListener<UploadPictureBloc, UploadPictureState>(
+        listener: (BuildContext context, UploadPictureState state) {
+          if (state is UploadPictureLoading) {
+          } else if (state is UploadPictureSuccess) {
+            setState(() {
+              _imageFile = state.url;
+            });
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Edit Profile'),
+          ),
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[200],
+                          image:
+                              _imageFile.isNotEmpty
+                                ? DecorationImage(
+                                    image: NetworkImage(_imageFile),
+                                    fit: BoxFit.contain,
+                                  )
+                                : null,
+                        ),
+                        child: _imageFile.isEmpty
                           ? Icon(
                               Icons.camera_alt,
                               size: 30,
                               color: Colors.grey[400],
                             )
                           : null,
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: MouseRegion(
-                        onEnter: (_) {
-                          setState(() {
-                            _isHovering = true;
-                          });
-                        },
-                        onExit: (_) {
-                          setState(() {
-                            _isHovering = false;
-                          });
-                        },
-                        child: GestureDetector(
-                          onTap: () async {
-                            final ImagePicker imagePicker = ImagePicker();
-                            final XFile? pickedImage = await imagePicker
-                                .pickImage(source: ImageSource.gallery);
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: MouseRegion(
+                          onEnter: (_) {
                             setState(() {
-                              if (pickedImage != null) {
-                                _imageFile = File(pickedImage.path);
-                              }
+                              _isHovering = true;
                             });
                           },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 150),
-                            padding: EdgeInsets.all(_isHovering ? 8.0 : 6.0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.black,
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
+                          onExit: (_) {
+                            setState(() {
+                              _isHovering = false;
+                            });
+                          },
+                          child: GestureDetector(
+                            onTap: () async {
+                              final ImagePicker imagePicker = ImagePicker();
+                              final XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+                              if (pickedImage != null && context.mounted) {
+                                context.read<UploadPictureBloc>().add(
+                                  UploadPicture(
+                                    await pickedImage.readAsBytes(),
+                                    basename(pickedImage.path),
+                                  ),
+                                );
+                              }
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 150),
+                              padding: EdgeInsets.all(_isHovering ? 8.0 : 6.0),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                    child: _buildCustomTextField(
+                      controller: _nameController,
+                      labelText: 'Your Name',
+                      isSelected: _isNameSelected,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 40),
-                  child: _buildCustomTextField(
-                    controller: _nameController,
-                    labelText: 'Your Name',
-                    isSelected: _isNameSelected,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 40),
-                  child: _buildCustomTextField(
-                    controller: _emailController,
-                    labelText: 'Your Email',
-                    isSelected: _isEmailSelected,
+                  const SizedBox(height: 20),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                    child: _buildCustomTextField(
+                      controller: _emailController,
+                      labelText: 'Your Email',
+                      isSelected: _isEmailSelected,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                _buildSaveButton(),
-              ],
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      final MyUser updatedUser = widget.user
+                        ..email = _emailController.text
+                        ..name = _nameController.text
+                        ..picture =
+                            _imageFile.isNotEmpty ? _imageFile : widget.user.picture;
+                      context.read<UpdateUserBloc>().add(UpdateUser(updatedUser));
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      child: Text(
+                        'Save',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         ),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
     );
   }
@@ -211,37 +252,6 @@ class UserScreenState extends State<UserScreen> {
             _isEmailSelected = false;
           });
         },
-      ),
-    );
-  }
-
-  Widget _buildSaveButton() {
-    return ElevatedButton(
-      onPressed: () {
-        final MyUser updatedUser = widget.user
-          ..email = _emailController.text
-          ..name = _nameController.text
-          ..picture =
-              _imageFile != null ? _imageFile!.path : widget.user.picture;
-        context.read<UpdateUserBloc>().add(UpdateUser(updatedUser));
-        Navigator.pop(context);
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-        child: Text(
-          'Save',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
       ),
     );
   }
