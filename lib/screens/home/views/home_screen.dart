@@ -276,14 +276,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const EdgeInsets.symmetric(horizontal: 12),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.center,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
                                         Text(
                                           '${state.shoes[i].price}€',
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 16,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .shadow,
@@ -291,12 +291,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       ],
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        CupertinoIcons.heart,
-                                      ),
                                     ),
                                   ],
                                 ),
