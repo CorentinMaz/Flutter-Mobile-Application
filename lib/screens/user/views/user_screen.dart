@@ -164,6 +164,9 @@ class UserScreenState extends State<UserScreen> {
                                 final ImagePicker imagePicker = ImagePicker();
                                 pickedImage = await imagePicker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
                               } else {
+                                // final CameraService cameraService = CameraService();
+                                // final CameraPlugin imagePicker = CameraPlugin(cameraService: cameraService);
+                                // pickedImage = await imagePicker.takePicture();
                                 // final ImagePickerPlugin imagePicker = ImagePickerPlugin();
                                 // pickedImage = await imagePicker.getImageFromSource(
                                 //   source: ImageSource.camera,
