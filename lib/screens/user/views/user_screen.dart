@@ -1,10 +1,14 @@
+import 'dart:async';
+
+import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:sneakboutique/blocs/upload_picture_bloc/upload_picture_bloc.dart';
-import 'package:sneakboutique/screens/home/views/home_screen.dart';
 import 'package:sneakboutique/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
+import 'package:sneakboutique/screens/user/views/camera_preview_modal.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// Widget for displaying user-specific content.
@@ -24,7 +28,8 @@ class UserScreenState extends State<UserScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late String _imageFile;
-  bool _isHovering = false;
+  bool _isHoveringLeft = false;
+  bool _isHoveringRight = false;
   bool _isNameSelected = false;
   bool _isEmailSelected = false;
 
@@ -107,12 +112,12 @@ class UserScreenState extends State<UserScreen> {
                         child: MouseRegion(
                           onEnter: (_) {
                             setState(() {
-                              _isHovering = true;
+                              _isHoveringLeft = true;
                             });
                           },
                           onExit: (_) {
                             setState(() {
-                              _isHovering = false;
+                              _isHoveringLeft = false;
                             });
                           },
                           child: GestureDetector(
@@ -130,13 +135,103 @@ class UserScreenState extends State<UserScreen> {
                             },
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
-                              padding: EdgeInsets.all(_isHovering ? 8.0 : 6.0),
+                              padding: EdgeInsets.all(_isHoveringLeft ? 8.0 : 6.0),
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.black,
                               ),
                               child: const Icon(
-                                Icons.add,
+                                Icons.photo_library,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 0,
+                        bottom: 0,
+                        child: MouseRegion(
+                          onEnter: (_) {
+                            setState(() {
+                              _isHoveringRight = true;
+                            });
+                          },
+                          onExit: (_) {
+                            setState(() {
+                              _isHoveringRight = false;
+                            });
+                          },
+                          child: GestureDetector(
+                            onTap: () async {
+                              late XFile? pickedImage;
+                              if (!kIsWeb) {
+                                final ImagePicker imagePicker = ImagePicker();
+                                pickedImage = await imagePicker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
+                              } else {
+                                final Completer<XFile?> completer = Completer<XFile?>();
+                                late CameraController cameraController;
+                                late List<CameraDescription> cameras;
+
+                                WidgetsFlutterBinding.ensureInitialized();
+                                cameras = await availableCameras();
+                                cameraController = CameraController(
+                                  cameras[0],
+                                  ResolutionPreset.medium,
+                                  enableAudio: false,
+                                );
+
+                                await cameraController.initialize().then((_) {
+                                  if (!mounted) {
+                                    return;
+                                  }
+                                  setState(() {});
+                                }).catchError((Object e) {
+                                  if (e is CameraException) {
+                                    switch (e.code) {
+                                      case 'CameraAccessDenied':
+                                        // Handle access errors here.
+                                        break;
+                                      default:
+                                        // Handle other errors here.
+                                        break;
+                                    }
+                                  }
+                                });
+                                if (cameraController.value.isInitialized && context.mounted) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CameraPreviewModal(
+                                        completer: completer,
+                                        cameraController: cameraController,
+                                        key: UniqueKey(),
+                                      );
+                                    },
+                                  );
+                                  pickedImage = await completer.future;
+                                  await cameraController.dispose();
+                                }
+                              }
+
+                              if (pickedImage != null && context.mounted) {
+                                context.read<UploadPictureBloc>().add(
+                                  UploadPicture(
+                                    await pickedImage.readAsBytes(),
+                                    basename(pickedImage.path),
+                                  ),
+                                );
+                              }
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 150),
+                              padding: EdgeInsets.all(_isHoveringRight ? 8.0 : 6.0),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
                                 color: Colors.white,
                               ),
                             ),
