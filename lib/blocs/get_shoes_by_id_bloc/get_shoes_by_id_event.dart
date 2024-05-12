@@ -5,6 +5,7 @@ part of 'get_shoes_by_id_bloc.dart';
 /// Les sous-classes de cet événement doivent implémenter la méthode [props]
 /// pour permettre la comparaison d'égalité entre les événements.
 abstract class GetShoesByIdEvent extends Equatable {
+  /// [GetShoesById] : L'identifiant unique des chaussures à récupérer.
   const GetShoesByIdEvent();
 
   @override
@@ -16,7 +17,10 @@ abstract class GetShoesByIdEvent extends Equatable {
 /// [id] : L'identifiant unique des chaussures à récupérer.
 class GetShoesById extends GetShoesByIdEvent {
 
+  /// [GetShoesById] : L'identifiant unique des chaussures à récupérer.
   const GetShoesById(this.id);
+
+  /// [id] : L'identifiant unique des chaussures à récupérer.
   final String id;
 
   @override

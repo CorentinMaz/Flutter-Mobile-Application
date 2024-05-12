@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 import 'package:sneakboutique/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
@@ -23,6 +21,8 @@ class DetailsScreen extends StatefulWidget {
 class DetailsScreenState extends State<DetailsScreen> {
   /// The selected shoe size.
   String selectedSize = '';
+
+  /// The shoes in cart.
   bool isInCartLocal = false;
 
   @override
@@ -147,23 +147,15 @@ class DetailsScreenState extends State<DetailsScreen> {
                                               BorderRadius.circular(8),
                                         ),
                                         child: Center(
-                                          child: Animate(
-                                            effects: const <Effect>[
-                                              ScaleEffect(
-                                                duration:
-                                                    Duration(milliseconds: 300),
-                                              ),
-                                            ],
-                                            child: Text(
-                                              size.toString(),
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: selectedSize ==
-                                                        size.toString()
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
+                                          child: Text(
+                                            size.toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: selectedSize ==
+                                                      size.toString()
+                                                  ? Colors.white
+                                                  : Colors.black,
                                             ),
                                           ),
                                         ),
@@ -179,7 +171,7 @@ class DetailsScreenState extends State<DetailsScreen> {
                                 builder: (BuildContext context, GetUserState state) {
                                   if (state is GetUserSuccess) {
                                     final MyUser user = state.user;
-                                    final bool isInCart = user.panier.contains(widget.shoes.shoesId) ?? isInCartLocal;
+                                    final bool isInCart = user.panier.contains(widget.shoes.shoesId);
                                     return SizedBox(
                                       width: MediaQuery.of(context).size.width,
                                       height: 50,
