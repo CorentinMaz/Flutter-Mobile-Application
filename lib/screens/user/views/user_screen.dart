@@ -209,6 +209,7 @@ class UserScreenState extends State<UserScreen> {
                                     },
                                   );
                                   pickedImage = await completer.future;
+                                  await cameraController.dispose();
                                 }
                               }
 
