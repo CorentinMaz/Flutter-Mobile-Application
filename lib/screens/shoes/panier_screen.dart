@@ -2,21 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 import 'package:sneakboutique/blocs/get_shoes_by_id_bloc/get_shoes_by_id_bloc.dart';
-import 'package:sneakboutique/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
+/// A screen widget to display the user's shopping cart.
 class PanierScreen extends StatefulWidget {
-  const PanierScreen({required this.user, Key? key}) : super(key: key);
+
+  /// Constructs a `PanierScreen` with the provided user data.
+  const PanierScreen({required this.user, super.key});
 
   /// The user data to be displayed.
   final MyUser user;
 
+  /// Overrides the default method to create the state for the PanierScreen widget.
+  ///
+  /// This method returns an instance of [_PanierScreenState], which is responsible for managing
+  /// the state of the PanierScreen widget.
   @override
-  _PanierScreenState createState() => _PanierScreenState();
+  PanierScreenState createState() => PanierScreenState();
 }
 
-class _PanierScreenState extends State<PanierScreen> {
-  List<Shoes> _loadedShoes = <Shoes>[];
+/// The state for the [PanierScreen] widget.
+///
+/// This class manages the state for the PanierScreen widget. It keeps track of the list of loaded shoes
+/// and provides methods to fetch shoes data and update the UI accordingly.
+class PanierScreenState extends State<PanierScreen> {
+  /// List to store the loaded shoes.
+  final List<Shoes> _loadedShoes = <Shoes>[];
 
   @override
   void initState() {
@@ -65,12 +76,18 @@ class _PanierScreenState extends State<PanierScreen> {
   }
 }
 
+/// Additional details about the shoes can be added as needed.
 class ShoesItem extends StatelessWidget {
+
+  /// Constructs a [ShoesItem] widget with the provided [shoes] object.
+  ///
+  /// The [shoes] parameter is required and represents the pair of shoes to be displayed.
   const ShoesItem({
     required this.shoes,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
+  /// The pair of shoes to be displayed by this widget.
   final Shoes shoes;
 
   @override
