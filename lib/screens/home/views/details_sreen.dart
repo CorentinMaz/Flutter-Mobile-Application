@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoes_repository/shoes_repository.dart';
+import 'package:sneakboutique/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
+import 'package:sneakboutique/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 /// A screen that displays the details of a pair of shoes.
 class DetailsScreen extends StatefulWidget {
@@ -19,59 +23,68 @@ class DetailsScreen extends StatefulWidget {
 class DetailsScreenState extends State<DetailsScreen> {
   /// The selected shoe size.
   String selectedSize = '';
+  bool isInCartLocal = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
+    return BlocListener<UpdateUserBloc, UpdateUserState>(
+      listener: (BuildContext context, UpdateUserState state) {
+        if (state is UpdateUserSuccess) {
+          setState(() {
+            isInCartLocal = true;
+          });
+        } else if (state is UpdateUserLoading) {
+        } else if (state is UpdateUserFailure) {}
+      },
+      child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                height: MediaQuery.of(context).size.height / 2,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(3, 3),
-                      blurRadius: 5,
-                    ),
-                  ],
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      widget.shoes.picture,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  height: MediaQuery.of(context).size.height / 2,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(3, 3),
+                        blurRadius: 5,
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        widget.shoes.picture,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(3, 3),
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Container(
+                const SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(3, 3),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
@@ -122,7 +135,8 @@ class DetailsScreenState extends State<DetailsScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.only(right: 10),
                                       child: AnimatedContainer(
-                                        duration: Duration(milliseconds: 300),
+                                        duration:
+                                            const Duration(milliseconds: 300),
                                         width: 40, // Largeur du carré
                                         height: 40, // Hauteur du carré
                                         decoration: BoxDecoration(
@@ -134,9 +148,12 @@ class DetailsScreenState extends State<DetailsScreen> {
                                         ),
                                         child: Center(
                                           child: Animate(
-                                            effects: const <Effect>[ScaleEffect(
-                                              duration: Duration(milliseconds: 300),
-                                            ),],
+                                            effects: const <Effect>[
+                                              ScaleEffect(
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                              ),
+                                            ],
                                             child: Text(
                                               size.toString(),
                                               style: TextStyle(
@@ -158,32 +175,45 @@ class DetailsScreenState extends State<DetailsScreen> {
                               const SizedBox(
                                 height: 40,
                               ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                child: TextButton(
-                                  onPressed: () {
-                                    if (kDebugMode) {
-                                      print('Selected Size: $selectedSize');
-                                    }
-                                  },
-                                  style: TextButton.styleFrom(
-                                    elevation: 3,
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    'Buy Now',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
+                              BlocBuilder<GetUserBloc, GetUserState>(
+                                builder: (BuildContext context, GetUserState state) {
+                                  if (state is GetUserSuccess) {
+                                    final MyUser user = state.user;
+                                    final bool isInCart = user.panier.contains(widget.shoes.shoesId) ?? isInCartLocal;
+                                    return SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      child: TextButton(
+                                        onPressed: isInCart ? null : () {
+                                          user.panier
+                                              .add(widget.shoes.shoesId);
+                                          context
+                                              .read<UpdateUserBloc>()
+                                              .add(UpdateUser(user));
+                                        },
+                                        style: TextButton.styleFrom(
+                                          elevation: 3,
+                                          backgroundColor: isInCart ? Colors.grey : Colors.black,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          isInCart ? 'Already in Cart' : 'Buy Now',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                },
                               ),
                             ],
                           ),
@@ -192,11 +222,12 @@ class DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+

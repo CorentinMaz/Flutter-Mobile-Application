@@ -5,12 +5,14 @@ import 'package:nested/nested.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 import 'package:sneakboutique/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sneakboutique/blocs/create_shoes_bloc/create_shoes_bloc.dart';
+import 'package:sneakboutique/blocs/get_shoes_by_id_bloc/get_shoes_by_id_bloc.dart';
 import 'package:sneakboutique/blocs/upload_picture_bloc/upload_picture_bloc.dart';
 import 'package:sneakboutique/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:sneakboutique/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
 import 'package:sneakboutique/screens/home/blocs/get_user_bloc/get_user_bloc.dart';
 import 'package:sneakboutique/screens/home/views/details_sreen.dart';
 import 'package:sneakboutique/screens/shoes/create_shoes_screen.dart';
+import 'package:sneakboutique/screens/shoes/panier_screen.dart';
 import 'package:sneakboutique/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
 import 'package:sneakboutique/screens/user/views/user_screen.dart';
 import 'package:user_repository/user_repository.dart';
@@ -86,7 +88,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else {
                   return IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => MultiBlocProvider(
+                            providers: <SingleChildWidget>[
+                              BlocProvider<GetShoesByIdBloc>(
+                                create: (BuildContext context) =>
+                                    GetShoesByIdBloc(
+                                  FirebaseShoesRepo(),
+                                ),
+                              ),
+                            ],
+                            child: PanierScreen(
+                              user: user,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                     icon: const Icon(CupertinoIcons.cart),
                   );
                 }
@@ -188,9 +208,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         await Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) => DetailsScreen(
-                              state.shoes[i],
-                              key: UniqueKey(),
+                            builder: (BuildContext context) => MultiBlocProvider(
+                            providers: <SingleChildWidget>[
+                              BlocProvider<UpdateUserBloc>(
+                                create: (BuildContext context) =>
+                                  UpdateUserBloc(
+                                    context.read<AuthenticationBloc>().userRepository,
+                                ),
+                              ),
+                              BlocProvider<GetUserBloc>(
+                                create: (BuildContext context) =>
+                                  GetUserBloc(
+                                    FirebaseUserRepo()
+                                )..add(GetUser()),
+                              ),
+                            ],
+                            child: DetailsScreen(
+                                state.shoes[i],
+                                key: UniqueKey(),
+                              ),
                             ),
                           ),
                         );
