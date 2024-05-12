@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 import 'package:sneakboutique/blocs/get_shoes_by_id_bloc/get_shoes_by_id_bloc.dart';
-import 'package:sneakboutique/screens/home/blocs/get_shoes_bloc/get_shoes_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 class PanierScreen extends StatefulWidget {
-  const PanierScreen({required this.user, Key? key}) : super(key: key);
+  const PanierScreen({required this.user, super.key});
 
   /// The user data to be displayed.
   final MyUser user;
@@ -16,7 +15,7 @@ class PanierScreen extends StatefulWidget {
 }
 
 class _PanierScreenState extends State<PanierScreen> {
-  List<Shoes> _loadedShoes = <Shoes>[];
+  final List<Shoes> _loadedShoes = <Shoes>[];
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _PanierScreenState extends State<PanierScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Panier'),
+        title: const Text('Cart'),
       ),
       body: BlocListener<GetShoesByIdBloc, GetShoesByIdState>(
         listener: (BuildContext context, GetShoesByIdState state) {
@@ -48,37 +47,170 @@ class _PanierScreenState extends State<PanierScreen> {
         child: BlocBuilder<GetShoesByIdBloc, GetShoesByIdState>(
           builder: (BuildContext context, GetShoesByIdState state) {
             if (state is GetShoesByLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return _buildShoesList();
             } else {
-              return ListView.builder(
-                itemCount: _loadedShoes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final Shoes shoes = _loadedShoes[index];
-                  return ShoesItem(shoes: shoes);
-                },
-              );
+              return _buildShoesList();
             }
           },
         ),
       ),
     );
   }
-}
 
-class ShoesItem extends StatelessWidget {
-  const ShoesItem({
-    required this.shoes,
-    Key? key,
-  }) : super(key: key);
+  Widget _buildShoesList() {
+    if (_loadedShoes.isEmpty) {
+      return const Center(
+        child: Text(
+          'The cart is empty',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+    }
 
-  final Shoes shoes;
+    return SingleChildScrollView(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              for (final Shoes shoes in _loadedShoes)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: _buildShoesItem(shoes),
+                ),
+              _buildTotalAmount(),
+              _buildPayButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(shoes.name),
-      subtitle: Text('${shoes.price}€'),
-      // Ajoutez d'autres détails de la chaussure ici selon vos besoins
+  Widget _buildShoesItem(Shoes shoes) {
+    final double cardWidth = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width / 2
+        : MediaQuery.of(context).size.width;
+    return Container(
+      padding: const EdgeInsets.all(10),
+      width: cardWidth,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              SizedBox(
+                height: 120,
+                width: 120,
+                child: Image.network(
+                  shoes.picture,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    shoes.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    shoes.description,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Text(
+            '${shoes.price}€',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTotalAmount() {
+    double totalAmount = 0;
+    for (final Shoes shoes in _loadedShoes) {
+      totalAmount += shoes.price;
+    }
+    final double totalWidth = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width / 2
+        : MediaQuery.of(context).size.width;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: SizedBox(
+        width: totalWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text(
+              'Total:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              '${totalAmount.toStringAsFixed(2)}€',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPayButton() {
+    return ElevatedButton(
+      onPressed: () {
+        // Add payment logic here
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.black,
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      child: const Text(
+        'Payer',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
