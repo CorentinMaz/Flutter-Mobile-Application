@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 /// A modal widget for displaying a camera preview.
 class CameraPreviewModal extends StatelessWidget {
-
   /// Constructs a [CameraPreviewModal] with the provided [completer] and [cameraController].
   const CameraPreviewModal({
     required this.completer,
@@ -21,47 +20,68 @@ class CameraPreviewModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Camera Preview'),
-      content: SizedBox(
-        width: double.maxFinite,
-        height: 400, // Ajustez la hauteur en fonction de vos besoins
-        child: Stack(
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: cameraController.value.aspectRatio,
-              child: CameraPreview(cameraController),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (cameraController.value.isInitialized) {
-                      final XFile photo = await cameraController.takePicture();
-                      completer.complete(photo);
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    }
-                  },
-                  child: const Text('Take Picture'),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        TextButton(
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.close), // Utilisation de l'icône de close
           onPressed: () {
             completer.complete(null);
             Navigator.of(context).pop();
           },
-          child: const Text('Close'),
         ),
-      ],
+        title: const Text('Camera Preview'),
+      ),
+      body: AlertDialog(
+        backgroundColor: Colors.white, // Background transparent
+        content: Center(
+          child: Column(
+            children: <Widget>[
+              ClipRRect(
+                child: Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9, // Taille adaptative
+                    height: 300,
+                    child: Center(
+                      child: Stack(
+                        children: <Widget>[
+                          Center(
+                            child: AspectRatio(
+                              aspectRatio: cameraController.value.aspectRatio,
+                              child: CameraPreview(cameraController),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (cameraController.value.isInitialized) {
+                    final XFile photo = await cameraController.takePicture();
+                    completer.complete(photo);
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black, // Couleur du bouton noir
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // Border radius
+                  ),
+                ),
+                child: const Text(
+                  'Take Picture',
+                  style: TextStyle(color: Colors.white), // Texte blanc
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

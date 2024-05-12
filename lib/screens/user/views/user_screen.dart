@@ -28,7 +28,8 @@ class UserScreenState extends State<UserScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late String _imageFile;
-  bool _isHovering = false;
+  bool _isHoveringLeft = false;
+  bool _isHoveringRight = false;
   bool _isNameSelected = false;
   bool _isEmailSelected = false;
 
@@ -111,12 +112,12 @@ class UserScreenState extends State<UserScreen> {
                         child: MouseRegion(
                           onEnter: (_) {
                             setState(() {
-                              _isHovering = true;
+                              _isHoveringLeft = true;
                             });
                           },
                           onExit: (_) {
                             setState(() {
-                              _isHovering = false;
+                              _isHoveringLeft = false;
                             });
                           },
                           child: GestureDetector(
@@ -134,7 +135,7 @@ class UserScreenState extends State<UserScreen> {
                             },
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
-                              padding: EdgeInsets.all(_isHovering ? 8.0 : 6.0),
+                              padding: EdgeInsets.all(_isHoveringLeft ? 8.0 : 6.0),
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.black,
@@ -153,12 +154,12 @@ class UserScreenState extends State<UserScreen> {
                         child: MouseRegion(
                           onEnter: (_) {
                             setState(() {
-                              _isHovering = true;
+                              _isHoveringRight = true;
                             });
                           },
                           onExit: (_) {
                             setState(() {
-                              _isHovering = false;
+                              _isHoveringRight = false;
                             });
                           },
                           child: GestureDetector(
@@ -224,7 +225,7 @@ class UserScreenState extends State<UserScreen> {
                             },
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
-                              padding: EdgeInsets.all(_isHovering ? 8.0 : 6.0),
+                              padding: EdgeInsets.all(_isHoveringRight ? 8.0 : 6.0),
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.black,
