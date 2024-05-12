@@ -235,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 10),
               LayoutBuilder(
-                builder: (context, constraints) {
+                builder: (BuildContext context, BoxConstraints constraints) {
                   double width = constraints.maxWidth * 0.9;
                   if (width > 600) {
                     width = MediaQuery.of(context).size.width * 0.5;

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:sneakboutique/blocs/upload_picture_bloc/upload_picture_bloc.dart';
-import 'package:sneakboutique/screens/home/views/home_screen.dart';
 import 'package:sneakboutique/screens/user/blocs/update_user_bloc/update_user_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
