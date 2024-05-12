@@ -18,7 +18,7 @@ class MyUserEntity {
       name = doc['name'],
       role = doc['role'],
       picture = doc['picture'],
-      panier = doc['panier'];
+      panier = List<String>.from(doc['panier']);
 
   /// The unique identifier of the user.
   String userId;
@@ -36,7 +36,7 @@ class MyUserEntity {
   String picture;
 
   /// The shopping cart of the user.
-  List<dynamic> panier;
+  List<String> panier;
 
 
   /// Converts the [MyUserEntity] instance to a document.

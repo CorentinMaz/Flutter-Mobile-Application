@@ -4,6 +4,7 @@ import 'package:nested/nested.dart';
 import 'package:shoes_repository/shoes_repository.dart';
 import 'package:sneakboutique/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sneakboutique/blocs/create_shoes_bloc/create_shoes_bloc.dart';
+import 'package:sneakboutique/blocs/get_shoes_by_id_bloc/get_shoes_by_id_bloc.dart';
 import 'package:sneakboutique/blocs/upload_picture_bloc/upload_picture_bloc.dart';
 import 'package:sneakboutique/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:sneakboutique/screens/auth/views/welcome_screen.dart';
@@ -58,6 +59,11 @@ class MyAppView extends StatelessWidget {
                 BlocProvider<UpdateUserBloc>(
                   create: (BuildContext context) => UpdateUserBloc(
                     context.read<AuthenticationBloc>().userRepository,
+                  ),
+                ),
+                BlocProvider<GetShoesByIdBloc>(
+                  create: (BuildContext context) => GetShoesByIdBloc(
+                    FirebaseShoesRepo(),
                   ),
                 ),
               ],

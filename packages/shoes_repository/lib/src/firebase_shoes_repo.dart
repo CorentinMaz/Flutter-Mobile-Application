@@ -56,4 +56,20 @@ class FirebaseShoesRepo implements ShoesRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<Shoes> getShoesById(String id) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> doc = await shoesCollection.doc(id).get();
+      if (doc.exists) {
+        final ShoesEntity shoesEntity = ShoesEntity.fromDocument(doc.data()!);
+        return Shoes.fromEntity(shoesEntity);
+      } else {
+        return Shoes.empty;
+      }
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }

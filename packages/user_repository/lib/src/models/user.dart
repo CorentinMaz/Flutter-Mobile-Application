@@ -38,7 +38,7 @@ class MyUser {
   String picture;
 
   /// The shopping cart of the user.
-  List<dynamic> panier;
+  List<String> panier;
 
   /// An empty [MyUser] instance.
   static final MyUser empty = MyUser(
@@ -47,7 +47,7 @@ class MyUser {
     name: '',
     role: 'user',
     picture: '',
-    panier: <dynamic>[],
+    panier: <String>[],
   );
 
   /// Converts the [MyUser] instance to a [MyUserEntity].

@@ -12,4 +12,7 @@ abstract class ShoesRepo {
 
   /// Creates a new shoes entry.
   Future<void> createShoes(Shoes shoes);
+
+  /// Get shoes by shoesId.
+  Future<Shoes> getShoesById(String id);
 }
