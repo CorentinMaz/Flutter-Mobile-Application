@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: const CreateShoesScreen(),
                           ),
                         ),
-                      ).then((void value) => <void>{ _getRequests() });
+                      ).then((void value) => <void>{_getRequests()});
                     },
                     icon: const Icon(CupertinoIcons.add),
                   );
@@ -102,38 +102,44 @@ class _HomeScreenState extends State<HomeScreen> {
                 return IconButton(
                   color: const Color.fromRGBO(238, 238, 238, 1),
                   onPressed: () async {
-                    await Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => MultiBlocProvider(
-                          providers: <SingleChildWidget>[
-                            BlocProvider<UpdateUserBloc>(
-                              create: (BuildContext context) => UpdateUserBloc(
-                                context.read<AuthenticationBloc>().userRepository,
+                    await Navigator.of(context)
+                        .push(
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                MultiBlocProvider(
+                              providers: <SingleChildWidget>[
+                                BlocProvider<UpdateUserBloc>(
+                                  create: (BuildContext context) =>
+                                      UpdateUserBloc(
+                                    context
+                                        .read<AuthenticationBloc>()
+                                        .userRepository,
+                                  ),
+                                ),
+                                BlocProvider<UploadPictureBloc>(
+                                  create: (BuildContext context) =>
+                                      UploadPictureBloc(
+                                    FirebaseShoesRepo(),
+                                  ),
+                                ),
+                              ],
+                              child: UserScreen(
+                                user: user,
                               ),
                             ),
-                            BlocProvider<UploadPictureBloc>(
-                              create: (BuildContext context) =>
-                                  UploadPictureBloc(
-                                FirebaseShoesRepo(),
-                              ),
-                            ),
-                          ],
-                          child: UserScreen(
-                            user: user,
                           ),
-                        ),
-                      ),
-                    ).then((void value) => <void>{ _getRequests() });
+                        )
+                        .then((void value) => <void>{_getRequests()});
                   },
                   icon: user.picture != ''
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage(user.picture),
-                      )
-                    : const Icon(
-                      CupertinoIcons.profile_circled,
-                      color: Colors.grey,
-                    ),
-                  );
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage(user.picture),
+                        )
+                      : const Icon(
+                          CupertinoIcons.profile_circled,
+                          color: Colors.grey,
+                        ),
+                );
               } else {
                 return const SizedBox.shrink();
               }
@@ -148,16 +154,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(32),
         child: BlocBuilder<GetShoesBloc, GetShoesState>(
           builder: (BuildContext context, GetShoesState state) {
             if (state is GetShoesSuccess) {
               return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 9 / 16,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).size.width > 900
+                      ? 5
+                      : MediaQuery.of(context).size.width > 600
+                          ? 3
+                          : 2,
+                  crossAxisSpacing: 32,
+                  mainAxisSpacing: 32,
+                  childAspectRatio: MediaQuery.of(context).size.width > 900
+                      ? 9 / 8
+                      : MediaQuery.of(context).size.width > 600
+                          ? 9 / 12
+                          : 9 / 16,
+                  mainAxisExtent: 300,
                 ),
                 itemCount: state.shoes.length,
                 itemBuilder: (BuildContext context, int i) {
@@ -180,65 +195,79 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Image.network(
-                            state.shoes[i].picture,
-                            scale: 6,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text(
-                              state.shoes[i].name,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Center(
+                              child: Image.network(
+                                state.shoes[i].picture,
+                                scale: 6,
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text(
-                              state.shoes[i].description,
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.grey.shade500,
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  state.shoes[i].name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  state.shoes[i].description,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                      '${state.shoes[i].price}€',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontWeight: FontWeight.w700,
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${state.shoes[i].price}€',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .shadow,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(
+                                        CupertinoIcons.heart,
                                       ),
                                     ),
                                   ],
                                 ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    CupertinoIcons.heart,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
