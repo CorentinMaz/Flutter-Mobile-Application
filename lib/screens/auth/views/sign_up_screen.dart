@@ -51,111 +51,130 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Center(
           child: Column(
             children: <Widget>[
-              const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
-                  controller: emailController,
-                  hintText: 'Email',
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                  validator: (String? val) {
-                    if (val!.isEmpty) {
-                      return 'Please fill in this field';
-                    } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
-                        .hasMatch(val)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
+               const SizedBox(height: 20),
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  double width = constraints.maxWidth * 0.9;
+                  if (width > 600) {
+                    width = MediaQuery.of(context).size.width * 0.5;
+                  }
+                  return SizedBox(
+                    width: width,
+                    child: MyTextField(
+                      controller: emailController,
+                      hintText: 'Email',
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                      validator: (String? val) {
+                        if (val!.isEmpty) {
+                          return 'Please fill in this field';
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
+                            .hasMatch(val)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: obscurePassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  prefixIcon: const Icon(CupertinoIcons.lock_fill),
-                  onChanged: (String? val) {
-                    if (val!.contains(RegExp('[A-Z]'))) {
-                      setState(() {
-                        containsUpperCase = true;
-                      });
-                    } else {
-                      setState(() {
-                        containsUpperCase = false;
-                      });
-                    }
-                    if (val.contains(RegExp('[a-z]'))) {
-                      setState(() {
-                        containsLowerCase = true;
-                      });
-                    } else {
-                      setState(() {
-                        containsLowerCase = false;
-                      });
-                    }
-                    if (val.contains(RegExp('[0-9]'))) {
-                      setState(() {
-                        containsNumber = true;
-                      });
-                    } else {
-                      setState(() {
-                        containsNumber = false;
-                      });
-                    }
-                    if (val.contains(
-                      RegExp(
-                        r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])',
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  double width = constraints.maxWidth * 0.9;
+                  if (width > 600) {
+                    width = MediaQuery.of(context).size.width * 0.5;
+                  }
+                  return SizedBox(
+                    width: width,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: MyTextField(
+                        controller: passwordController,
+                        hintText: 'Password',
+                        obscureText: obscurePassword,
+                        keyboardType: TextInputType.visiblePassword,
+                        prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                        onChanged: (String? val) {
+                          if (val!.contains(RegExp('[A-Z]'))) {
+                            setState(() {
+                              containsUpperCase = true;
+                            });
+                          } else {
+                            setState(() {
+                              containsUpperCase = false;
+                            });
+                          }
+                          if (val.contains(RegExp('[a-z]'))) {
+                            setState(() {
+                              containsLowerCase = true;
+                            });
+                          } else {
+                            setState(() {
+                              containsLowerCase = false;
+                            });
+                          }
+                          if (val.contains(RegExp('[0-9]'))) {
+                            setState(() {
+                              containsNumber = true;
+                            });
+                          } else {
+                            setState(() {
+                              containsNumber = false;
+                            });
+                          }
+                          if (val.contains(
+                            RegExp(
+                              r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])',
+                            ),
+                          )) {
+                            setState(() {
+                              containsSpecialChar = true;
+                            });
+                          } else {
+                            setState(() {
+                              containsSpecialChar = false;
+                            });
+                          }
+                          if (val.length >= 8) {
+                            setState(() {
+                              contains8Length = true;
+                            });
+                          } else {
+                            setState(() {
+                              contains8Length = false;
+                            });
+                          }
+                          return null;
+                        },
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              obscurePassword = !obscurePassword;
+                              if (obscurePassword) {
+                                iconPassword = CupertinoIcons.eye_fill;
+                              } else {
+                                iconPassword = CupertinoIcons.eye_slash_fill;
+                              }
+                            });
+                          },
+                          icon: Icon(iconPassword),
+                        ),
+                        validator: (String? val) {
+                          if (val!.isEmpty) {
+                            return 'Please fill in this field';
+                          } else if (!RegExp(
+                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$',
+                          ).hasMatch(val)) {
+                            return 'Please enter a valid password';
+                          }
+                          return null;
+                        },
                       ),
-                    )) {
-                      setState(() {
-                        containsSpecialChar = true;
-                      });
-                    } else {
-                      setState(() {
-                        containsSpecialChar = false;
-                      });
-                    }
-                    if (val.length >= 8) {
-                      setState(() {
-                        contains8Length = true;
-                      });
-                    } else {
-                      setState(() {
-                        contains8Length = false;
-                      });
-                    }
-                    return null;
-                  },
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        obscurePassword = !obscurePassword;
-                        if (obscurePassword) {
-                          iconPassword = CupertinoIcons.eye_fill;
-                        } else {
-                          iconPassword = CupertinoIcons.eye_slash_fill;
-                        }
-                      });
-                    },
-                    icon: Icon(iconPassword),
-                  ),
-                  validator: (String? val) {
-                    if (val!.isEmpty) {
-                      return 'Please fill in this field';
-                    } else if (!RegExp(
-                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$',
-                    ).hasMatch(val)) {
-                      return 'Please enter a valid password';
-                    }
-                    return null;
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 10),
               Row(
@@ -169,24 +188,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         '⚈  1 uppercase',
                         style: TextStyle(
                           color: containsUpperCase
-                              ? Colors.greenAccent
-                              : Colors.white,
+                              ? Colors.green
+                              : Colors.black,
                         ),
                       ),
                       Text(
                         '⚈  1 lowercase',
                         style: TextStyle(
                           color: containsLowerCase
-                              ? Colors.greenAccent
-                              : Colors.white,
+                              ? Colors.green
+                              : Colors.black,
                         ),
                       ),
                       Text(
                         '⚈  1 number',
                         style: TextStyle(
                           color: containsNumber
-                              ? Colors.greenAccent
-                              : Colors.white,
+                              ? Colors.green
+                              : Colors.black,
                         ),
                       ),
                     ],
@@ -198,16 +217,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         '⚈  1 special character',
                         style: TextStyle(
                           color: containsSpecialChar
-                              ? Colors.greenAccent
-                              : Colors.white,
+                              ? Colors.green
+                              : Colors.black,
                         ),
                       ),
                       Text(
                         '⚈  8 minimum character',
                         style: TextStyle(
                           color: contains8Length
-                              ? Colors.greenAccent
-                              : Colors.white,
+                              ? Colors.green
+                              : Colors.black,
                         ),
                       ),
                     ],
@@ -215,23 +234,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
-                  controller: nameController,
-                  hintText: 'Name',
-                  obscureText: false,
-                  keyboardType: TextInputType.name,
-                  prefixIcon: const Icon(CupertinoIcons.person_fill),
-                  validator: (String? val) {
-                    if (val!.isEmpty) {
-                      return 'Please fill in this field';
-                    } else if (val.length > 30) {
-                      return 'Name too long';
-                    }
-                    return null;
-                  },
-                ),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  double width = constraints.maxWidth * 0.9;
+                  if (width > 600) {
+                    width = MediaQuery.of(context).size.width * 0.5;
+                  }
+                  return SizedBox(
+                    width: width,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: MyTextField(
+                        controller: nameController,
+                        hintText: 'Name',
+                        obscureText: false,
+                        keyboardType: TextInputType.name,
+                        prefixIcon: const Icon(CupertinoIcons.person_fill),
+                        validator: (String? val) {
+                          if (val!.isEmpty) {
+                            return 'Please fill in this field';
+                          } else if (val.length > 30) {
+                            return 'Name too long';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               if (!signUpRequired)
@@ -256,8 +286,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     style: TextButton.styleFrom(
                       elevation: 3,
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(60),
                       ),
@@ -269,7 +299,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         'Sign Up',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),

@@ -31,7 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     const Text(
                       'SneakBoutique',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 24, // Taille du texte
                         fontWeight: FontWeight.bold, // Gras
                       ),
@@ -82,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: Text(
                                 'Sign In',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 18,
                                 ),
                               ),
@@ -92,7 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 18,
                                 ),
                               ),
