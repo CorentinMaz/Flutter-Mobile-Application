@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,7 +136,57 @@ class UserScreenState extends State<UserScreen> {
                                 color: Colors.black,
                               ),
                               child: const Icon(
-                                Icons.add,
+                                Icons.photo_library,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 0,
+                        bottom: 0,
+                        child: MouseRegion(
+                          onEnter: (_) {
+                            setState(() {
+                              _isHovering = true;
+                            });
+                          },
+                          onExit: (_) {
+                            setState(() {
+                              _isHovering = false;
+                            });
+                          },
+                          child: GestureDetector(
+                            onTap: () async {
+                              late XFile? pickedImage;
+                              if (!kIsWeb) {
+                                final ImagePicker imagePicker = ImagePicker();
+                                pickedImage = await imagePicker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
+                              } else {
+                                // final ImagePickerPlugin imagePicker = ImagePickerPlugin();
+                                // pickedImage = await imagePicker.getImageFromSource(
+                                //   source: ImageSource.camera,
+                                // );
+                              }
+                              if (pickedImage != null && context.mounted) {
+                                context.read<UploadPictureBloc>().add(
+                                  UploadPicture(
+                                    await pickedImage.readAsBytes(),
+                                    basename(pickedImage.path),
+                                  ),
+                                );
+                              }
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 150),
+                              padding: EdgeInsets.all(_isHovering ? 8.0 : 6.0),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
                                 color: Colors.white,
                               ),
                             ),
