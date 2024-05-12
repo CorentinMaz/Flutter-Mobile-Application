@@ -104,8 +104,8 @@ class _CreateShoesScreenState extends State<CreateShoesScreen> {
                         ),
                       )
                           : Ink(
-                        width: 400,
-                        height: 400,
+                        width: 300,
+                        height: 300,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: const Color.fromARGB(255, 213, 213, 213),
