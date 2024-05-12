@@ -230,4 +230,3 @@ class DetailsScreenState extends State<DetailsScreen> {
     );
   }
 }
-
