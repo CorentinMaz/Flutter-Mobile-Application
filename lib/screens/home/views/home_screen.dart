@@ -87,28 +87,58 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(CupertinoIcons.add),
                   );
                 } else {
-                  return IconButton(
-                    onPressed: () async {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => MultiBlocProvider(
-                            providers: <SingleChildWidget>[
-                              BlocProvider<GetShoesByIdBloc>(
-                                create: (BuildContext context) =>
-                                    GetShoesByIdBloc(
-                                  FirebaseShoesRepo(),
+                  return Stack(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () async {
+                          await Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => MultiBlocProvider(
+                                providers: <SingleChildWidget>[
+                                  BlocProvider<GetShoesByIdBloc>(
+                                    create: (BuildContext context) =>
+                                        GetShoesByIdBloc(
+                                      FirebaseShoesRepo(),
+                                    ),
+                                  ),
+                                ],
+                                child: PanierScreen(
+                                  user: user,
                                 ),
                               ),
-                            ],
-                            child: PanierScreen(
-                              user: user,
+                            ),
+                          ).then((void value) => <void>{_getRequests()});
+                        },
+                        icon: Icon(user.panier.isNotEmpty ? CupertinoIcons.cart_fill : CupertinoIcons.cart),
+                      ),
+                      if (user.panier.isNotEmpty) // Afficher le nombre d'éléments seulement s'il y en a
+                        Positioned(
+                          right: 0,
+                          child: IgnorePointer(
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.red, // Couleur de fond
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 20,
+                                minHeight: 20,
+                              ),
+                              child: Text(
+                                '${user.panier.length}', // Nombre d'éléments dans le panier
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ).then((void value) => <void>{_getRequests()});
-                    },
-                    icon: const Icon(CupertinoIcons.cart),
+                    ],
                   );
+
                 }
               } else {
                 return const SizedBox.shrink();
@@ -157,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       : const Icon(
                           CupertinoIcons.profile_circled,
-                          color: Colors.grey,
+                          color: Colors.black,
                         ),
                 );
               } else {
