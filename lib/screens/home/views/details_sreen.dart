@@ -55,7 +55,7 @@ class DetailsScreenState extends State<DetailsScreen> {
                 height: 30,
               ),
               Center(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width / 1.5,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -70,117 +70,115 @@ class DetailsScreenState extends State<DetailsScreen> {
                       ],
                     ),
                     child: Center(
-                      child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    widget.shoes.name,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
                                     child: Text(
-                                      widget.shoes.name,
+                                      '${widget.shoes.price}€',
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${widget.shoes.price}€',
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              children:
+                                  widget.shoes.sizeShoes.map((int size) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedSize = size.toString();
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      width: 40, // Largeur du carré
+                                      height: 40, // Hauteur du carré
+                                      decoration: BoxDecoration(
+                                        color: selectedSize == size.toString()
+                                            ? Colors.black
+                                            : Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(8),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Wrap(
-                                spacing: 10,
-                                runSpacing: 10,
-                                children:
-                                    widget.shoes.sizeShoes.map((int size) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedSize = size.toString();
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: AnimatedContainer(
-                                        duration: Duration(milliseconds: 300),
-                                        width: 40, // Largeur du carré
-                                        height: 40, // Hauteur du carré
-                                        decoration: BoxDecoration(
-                                          color: selectedSize == size.toString()
-                                              ? Colors.black
-                                              : Colors.grey[200],
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            size.toString(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: selectedSize ==
-                                                      size.toString()
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
+                                      child: Center(
+                                        child: Text(
+                                          size.toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: selectedSize ==
+                                                    size.toString()
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                child: TextButton(
-                                  onPressed: () {
-                                    if (kDebugMode) {
-                                      print('Selected Size: $selectedSize');
-                                    }
-                                  },
-                                  style: TextButton.styleFrom(
-                                    elevation: 3,
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
                                   ),
-                                  child: const Text(
-                                    'Buy Now',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                );
+                              }).toList(),
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              child: TextButton(
+                                onPressed: () {
+                                  if (kDebugMode) {
+                                    print('Selected Size: $selectedSize');
+                                  }
+                                },
+                                style: TextButton.styleFrom(
+                                  elevation: 3,
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Buy Now',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
