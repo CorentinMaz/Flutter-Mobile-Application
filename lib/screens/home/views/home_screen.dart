@@ -30,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<GetShoesBloc>().add(GetShoes());
   }
 
+  bool _isButtonPressed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,10 +232,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    CupertinoIcons.heart,
-                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isButtonPressed = !_isButtonPressed;
+                                    });
+                                    // Add any other logic you want to execute when the button is pressed
+                                  },
+                                  icon: _isButtonPressed
+                                      ? const Icon(
+                                          CupertinoIcons.check_mark_circled,
+                                        )
+                                      : const Icon(
+                                          CupertinoIcons.cart_badge_plus,
+                                        ),
                                 ),
                               ],
                             ),
