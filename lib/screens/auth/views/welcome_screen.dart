@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sneakboutique/blocs/authentication_bloc/authentication_bloc.dart';
@@ -32,37 +31,35 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
-              Align(
-                alignment: const AlignmentDirectional(20, -1.2),
-                child: Container(
-                  height: MediaQuery.of(context).size.width,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
+              Positioned(
+                top: 50, // Position verticale du contenu
+                left: 0, // Position horizontale du contenu
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center, // Centrer l'image et le texte horizontalement
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/logosneakers.png', // Chemin de l'image dans le dossier assets
+                      width: 75, // Largeur de l'image
+                      height: 75, // Hauteur de l'image
+                    ),
+                    const SizedBox(width: 10), // Espacement entre l'image et le texte
+                    const Text(
+                      'SneakBoutique',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24, // Taille du texte
+                        fontWeight: FontWeight.bold, // Gras
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Align(
-                alignment: const AlignmentDirectional(2.7, -1.2),
-                child: Container(
-                  height: MediaQuery.of(context).size.width / 1.3,
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-                child: Container(),
               ),
               Align(
                 child: SizedBox(
@@ -85,6 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: Text(
                                 'Sign In',
                                 style: TextStyle(
+                                  color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
@@ -94,6 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(
+                                  color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
