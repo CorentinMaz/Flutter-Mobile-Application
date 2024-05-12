@@ -178,7 +178,7 @@ class _CreateShoesScreenState extends State<CreateShoesScreen> {
                                   controller: priceController,
                                   hintText: 'Price',
                                   obscureText: false,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.number,
                                   errorMsg: _errorMsg,
                                   validator: (String? val) {
                                     if (val!.isEmpty) {
